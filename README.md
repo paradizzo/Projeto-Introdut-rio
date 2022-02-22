@@ -4,5 +4,5 @@ Esse é somente um arquétipo, sem interface visual, funciona pelo console e gua
 
 
 
-#Adicionado teste unitário 
+# Adicionado teste unitário 
 Um teste unitário simples foi adicionado, meio feito de maneira gambiarrada mas funcional.
