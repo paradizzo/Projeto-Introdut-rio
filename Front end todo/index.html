@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8e5b938a9a.js" crossorigin="anonymous"></script>
+    <title>Acelera TOdo</title>
+</head>
+<body>
+    <div class="main">
+        <div class="title-box">
+            <h1>Navarro's TodoList</h1>
+        </div>
+        <div class="topic-section" >
+            <div class="wraper-section">
+            <img src="images/icon-arrow-down.svg" alt="" class="arrow-section">
+            <p class="section-name" id="name-prox">Próximos</p>
+            </div>
+            <div class="wraper-plus">
+                <a><img src="images/plus-solid.svg" alt="" class="plus-icon"></a>
+                <div class="add-tarefas" id="add-prox">
+                    <img src="images/xmark-solid.svg" alt="" >
+                    <input type="text" placeholder="Insira a tarefa">
+                    <input type="text" placeholder="Descrição" >
+                    <a href="#" class="btn-add">Adicionar</a>
+                </div>
+            <p class="item-count" id="count-prox"> 0 </p></div>
+        </div>
+        <div class="task-section" id="prx">
+            <div class="todoList">
+                <ul class="todoListProx">
+
+                </ul>
+            </div>
+        </div>
+        <div class="topic-section">
+            <div class="wraper-section">
+            <img src="images/icon-arrow-down.svg" alt="" class="arrow-section" id="arrow-section-fazer">
+            <p class="section-name" id="name-fazer">A fazer</p>
+            </div>
+            <div class="wraper-plus" id="wraper-plus-fazer">
+            <img src="images/plus-solid.svg" alt="" class="plus-icon">
+                <div class="add-tarefas" id="add-fazer">
+                    <img src="images/xmark-solid.svg" alt="" >
+
+                    <input type="text" placeholder="Insira a tarefa">
+                    <input type="text" placeholder="Descrição" >
+                    <a href="#"  class="add-btn-fazer" >Adicionar</a>
+                </div>
+            <p class="item-count" id="count-fazer"> 0</p></div>
+        </div>
+            <div class="task-section" id="fazer">
+                <div class="todoList">
+                    <ul class="todoListFazer">
+
+                    </ul>
+                </div>
+            </div>
+
+        <div class="topic-section">
+            <div class="wraper-section">
+            <img src="images/icon-arrow-down.svg" alt="" class="arrow-section" id="arrow-section-fnzd">
+            <p class="section-name" id="name-fznd">Fazendo</p>
+            </div>
+            <div class="wraper-plus" id="wraper-plus-fnzd">
+            <img src="images/plus-solid.svg" alt="" class="plus-icon">
+                <div class="add-tarefas" id="add-fnzd">
+                    <img src="images/xmark-solid.svg" alt="" >
+
+                    <input type="text" placeholder="Insira a tarefa">
+                    <input type="text" placeholder="Descrição">
+                    <a href="#" class="add-btn-fnzd">Adicionar</a>
+                </div>
+            <p class="item-count" id="count-fnzd"> 0</p></div>
+        </div>
+            <div class="task-section" id="fazendo">
+                <div class="todoList">
+                    <ul class="todoListfnzd">
+
+                    </ul>
+                </div>
+            </div>
+
+        <div class="topic-section">
+            <div class="wraper-section">
+            <img src="images/icon-arrow-down.svg" alt="" class="arrow-section" id="arrow-section-conc">
+            <p class="section-name" id="name-conc">Concluído</p>
+            </div>
+            <div class="wraper-plus" id="wraper-plus-conc">
+            <img src="images/plus-solid.svg" alt="" class="plus-icon">
+                <div class="add-tarefas" id="add-conc">
+                    <img src="images/xmark-solid.svg" alt="" >
+
+                    <input type="text" placeholder="Insira a tarefa">
+                    <input type="text" placeholder="Descrição">
+                    <a href="#" class="add-btn-conc" >Adicionar</a>
+                </div>
+            <p class="item-count" id="count-conc"> 0</p></div>
+        </div>
+        <div class="task-section" id="conc">
+            <div class="todoList">
+                <ul class="todoListConc">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <ul class="social-media-box">
+        <li><a href="https://github.com/paradizzo"><i class="fab fa-brands fa-github"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/lucas-paradizo/"><i class="fab fa-brands fa-linkedin-in"></i></a></li>
+    </ul>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
