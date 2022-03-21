@@ -1,8 +1,6 @@
-
 /** Declaração de variaveis **/
 
 const proxInputName = document.querySelector("#add-prox input");
-const  proxInputDesc = document.querySelector("#add-prox input:nth-child(2n)");
 const  proxAddBtn = document.querySelector(".btn-add ");
 const proxOpenBtn = document.querySelector(".wraper-plus a");
 const proxTodoList = document.querySelector(".todoListProx");
@@ -28,37 +26,138 @@ closeProxMenuList.onclick = () => {
 }
 proxAddBtn.onclick = ()=> {
     let userData = proxInputName.value;
+    let PrioridadeData = document.getElementById("prioProx").value;
+    let dateData = document.getElementById('datefieldProx').value;  // Eu sei que isso tá confuso, mas tamo junto
     let getLocalStorage = localStorage.getItem("Nova Tarefa");
+    let LocalStoragePrioridade = localStorage.getItem("Prioridade")
+    let LocalStorageDate = localStorage.getItem('Datas')
+    let listArray;
+    let listArrayPrioridade;
+    let listArrayDate;
     if (getLocalStorage == null) {
         listArray = []
-    } else  {
+        listArrayPrioridade = []
+        listArrayDate = []
+    } else {
         listArray = JSON.parse(getLocalStorage);
+        listArrayPrioridade = JSON.parse(LocalStoragePrioridade)
+        listArrayDate = JSON.parse(LocalStorageDate)
     }
-    listArray.push(userData);
-    localStorage.setItem("Nova Tarefa", JSON.stringify(listArray));
-    proxMenuList.style.display = "none";
-    countProxFunc();
-    proxMostrarTarefa();
+
+
+    if (prioProx()){
+        if (dateProx()){
+            listArray.push(userData);
+            listArrayPrioridade.push(PrioridadeData)
+            listArrayDate.push(dateData)
+            localStorage.setItem("Nova Tarefa", JSON.stringify(listArray));
+            localStorage.setItem("Prioridade", JSON.stringify(listArrayPrioridade))
+            localStorage.setItem('Datas' , JSON.stringify(listArrayDate))
+            countProxFunc();
+            proxMostrarTarefa();
+            proxMenuList.style.display = "none";
+
+        }
+        else {
+            window.alert("Insira uma data válida")
+            return
+        }
+    }
+    else {
+        window.alert("Insira uma prioridade válida: 1 - 5 ")
+        return;
+    }
+
+
 
 }
+function dateProx() {
+    // Eu não faço a minima ideia de como eu cheguei nessa solução usando regex e sem usar um input de type Date. Mas basicamente usei o split para separar a data em 3 elementos, eu pego o index e transformo em int, o grande problema é que isso  só me permite usar DD/MM/YYYY, espero que não seja um problema.
+
+    let regexDate = /^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/;
+    let inputDate = document.getElementById('datefieldProx').value;
+    let testValidDate = regexDate.test(inputDate)
+    let today = new Date();
+    let currentDate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+    currentDate = currentDate.split('/')
+    let currentDateMes = parseInt(currentDate[1])
+    let currentDateYear = parseInt(currentDate[2])
+    let currentDateDia = parseInt(currentDate[0])
+    inputDate = inputDate.split('/')
+    let inputDateDia = parseInt(inputDate[0])
+    let inputDateMes = parseInt(inputDate[1])
+    let inputDateAno = parseInt(inputDate[2])
+
+    if (testValidDate){
+        if (inputDateAno >= currentDateYear) {
+            if (inputDateAno > currentDateYear) {
+                return true
+            }
+            if (inputDateAno == currentDateYear) {
+                if (inputDateMes >= currentDateMes) {
+                    if (inputDateMes > currentDateMes) {
+                        return  true
+                    }
+                    if (inputDateMes == currentDateMes) {
+                        if (inputDateDia >= currentDateDia) {
+                            return true
+                        }
+                        else {
+                            return  false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+function prioProx() {
+    let regexPrioridade = /^[1-5]$/;
+    let inputPrioridade = document.getElementById("prioProx").value;
+    return regexPrioridade.test(inputPrioridade)
+}
+
+
 function proxMostrarTarefa(){
     let getLocalStorage = localStorage.getItem("Nova Tarefa");
-    if (getLocalStorage == null){
+    let PrioridadeData = localStorage.getItem("Prioridade")
+    let dateData = localStorage.getItem('Datas')
+    let listArray;
+    let listArrayPrioridade;
+    let listArrayDate;
+    if (getLocalStorage == null) {
         listArray = [];
-    }else {
+        listArrayPrioridade = []
+        listArrayDate = []
+    } else {
         listArray = JSON.parse(getLocalStorage);
+        listArrayPrioridade = JSON.parse(PrioridadeData)
+        listArrayDate = JSON.parse(dateData)
     }
     let newLiTag = "";
     listArray.forEach((element, index) => {
+        let prioridadePrint = listArrayPrioridade[index]
+        let dataPrint = listArrayDate[index]
         newLiTag += ` <li> 
                                   <input type=\"checkbox\" name=\"done-task\">
                                   <a><p>${element}</p></a>
+                                  <p>${prioridadePrint}</p>
+                                  <p>${dataPrint}</p>
                                   <img src=\"images/arrow-rotate-right-solid.svg\" alt=\"\" onclick = "atualizarTarefa(${index})">
                                   <img src=\"images/trash-solid.svg\" onclick = "deletarTarefaProx(${index})">
                               </li>`
     });
     proxTodoList.innerHTML = newLiTag;
+    const descinput = document.querySelector('.descInput')
+    const dateField = document.querySelector('.datefield')
+    const prioridadeField = document.querySelector('.prioridadefield')
+    const categoryField = document.querySelector('.categoryfield')
+    descinput.value= ""
+    dateField.value = ""
+    prioridadeField.value = ""
+    categoryField.value = ""
     proxInputName.value = ""
+
 }
 /** FIM DO PROXIXO **/
 
@@ -86,36 +185,138 @@ closefazerMenuList.onclick = () => {
 fazerAddBtn.onclick = ()=> {
     let userDataFazer = fazerInputName.value;
     let getLocalStorageFazer = localStorage.getItem("Nova Tarefa Fazer");
+    let listArrayFazer;
+
+    let dataPrioridadeFazer = document.getElementById('prioFazer').value;
+    let getLocalStoragePrioridadeFazer = localStorage.getItem('Prioridade Fazer')
+    let listArrayPrioridadeFazer;
+
+    let dataDateFazer = document.getElementById('datefieldFazer').value;
+    let getLocalStorageDateFazer = localStorage.getItem('Data Fazer');
+    let listArrayDateFazer;
+
     if (getLocalStorageFazer == null) {
         listArrayFazer = []
-    } else  {
-        listArrayFazer= JSON.parse(getLocalStorageFazer);
+        listArrayPrioridadeFazer = []
+        listArrayDateFazer = []
+
+    } else {
+        listArrayFazer = JSON.parse(getLocalStorageFazer);
+        listArrayPrioridadeFazer = JSON.parse(getLocalStoragePrioridadeFazer);
+        listArrayDateFazer = JSON.parse(getLocalStorageDateFazer);
     }
-    listArrayFazer.push(userDataFazer);
-    localStorage.setItem("Nova Tarefa Fazer", JSON.stringify(listArrayFazer));
-    fazerMenuList.style.display = "none";
-    countFazerFunc()
-    fazerMostrarTarefa();
+
+    if (prioFazer()){
+        if (dateFazer()){
+            listArrayFazer.push(userDataFazer);
+            listArrayPrioridadeFazer.push(dataPrioridadeFazer)
+            listArrayDateFazer.push(dataDateFazer)
+
+            localStorage.setItem("Nova Tarefa Fazer", JSON.stringify(listArrayFazer));
+            localStorage.setItem("Prioridade Fazer", JSON.stringify(listArrayPrioridadeFazer))
+            localStorage.setItem("Data Fazer", JSON.stringify(listArrayDateFazer))
+            countFazerFunc()
+            fazerMostrarTarefa();
+            fazerMenuList.style.display = "none";
+
+        }
+        else {
+            window.alert("Insira uma data válida")
+            return
+        }
+    }
+    else {
+        window.alert("Insira uma prioridade válida: 1 - 5 ")
+        return;
+    }
+
 
 }
+function prioFazer() {
+    let regexPrioridade = /^[1-5]$/;
+    let inputPrioridade = document.getElementById("prioFazer").value;
+    return regexPrioridade.test(inputPrioridade)
+}
+function dateFazer() {
+    let regexDate = /^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/;
+    let inputDate = document.getElementById('datefieldFazer').value;
+    let testValidDate = regexDate.test(inputDate)
+    let today = new Date();
+    let currentDate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+    currentDate = currentDate.split('/')
+    let currentDateMes = parseInt(currentDate[1])
+    let currentDateYear = parseInt(currentDate[2])
+    let currentDateDia = parseInt(currentDate[0])
+    inputDate = inputDate.split('/')
+    let inputDateDia = parseInt(inputDate[0])
+    let inputDateMes = parseInt(inputDate[1])
+    let inputDateAno = parseInt(inputDate[2])
+
+    if (testValidDate){
+        if (inputDateAno >= currentDateYear) {
+            if (inputDateAno > currentDateYear) {
+                return true
+            }
+            if (inputDateAno == currentDateYear) {
+                if (inputDateMes >= currentDateMes) {
+                    if (inputDateMes > currentDateMes) {
+                        return  true
+                    }
+                    if (inputDateMes == currentDateMes) {
+                        if (inputDateDia >= currentDateDia) {
+                            return true
+                        }
+                        else {
+                            return  false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 function fazerMostrarTarefa(){
+    let getLocalStoragePrioridadeFazer = localStorage.getItem("Prioridade Fazer")
+    let listArrayPrioridadeFazer;
+
+    let getLocalStorageDateFazer = localStorage.getItem("Data Fazer")
+    let listArrayDateFazer;
+
     let getLocalStorageFazer = localStorage.getItem("Nova Tarefa Fazer");
-    if (getLocalStorageFazer == null){
+    let listArrayFazer;
+    if (getLocalStorageFazer == null) {
         listArrayFazer = [];
-    }else {
+        listArrayPrioridadeFazer = []
+        listArrayDateFazer = []
+    } else {
         listArrayFazer = JSON.parse(getLocalStorageFazer);
+        listArrayPrioridadeFazer = JSON.parse(getLocalStoragePrioridadeFazer)
+        listArrayDateFazer = JSON.parse(getLocalStorageDateFazer)
     }
     let newLiTagFazer = "";
     listArrayFazer.forEach((elementFazer, index) => {
+        let prioridadePrintFazer = listArrayPrioridadeFazer[index]
+        let dataPrintFazer = listArrayDateFazer[index]
         newLiTagFazer += ` <li> 
                                   <input type=\"checkbox\" name=\"done-task\">
                                   <a><p>${elementFazer}</p></a>
+                                  <p>${prioridadePrintFazer}</p>
+                                  <p>${dataPrintFazer}</p>
                                   <img src=\"images/arrow-rotate-right-solid.svg\" alt=\"\" onclick = "atualizarTarefaFazer(${index})">
                                   <img src=\"images/trash-solid.svg\" onclick = "deletarTarefaFazer(${index})">
                               </li>`
     });
     fazerTodoList.innerHTML = newLiTagFazer;
+    const descinput = document.querySelector('.descInputFazer')
+    const dateField = document.querySelector('.datefieldFazer')
+    const prioridadeField = document.querySelector('.prioridadefieldFazer')
+    const categoryField = document.querySelector('.categoryfieldFazer')
+    descinput.value= ""
+    dateField.value = ""
+    prioridadeField.value = ""
+    categoryField.value = ""
     fazerInputName.value = "";
+
 }
 
 /** FIM DO FAZER **/
@@ -141,37 +342,135 @@ closefnzdMenuList.onclick = () => {
 fnzdAddBtn.onclick = ()=> {
     let userDatafnzd = fnzdInputName.value;
     let getLocalStoragefnzd = localStorage.getItem("Nova Tarefa fnzd");
+
+    let dataPrioridadeFnzd = document.getElementById('prioFnzd').value;
+    let getLocalStoragePrioridadeFnzd = localStorage.getItem('Prioridade Fnzd')
+    let listArrayPrioridadeFnzd;
+
+    let dataDateFnzd = document.getElementById('datefieldFnzd').value;
+    let getLocalStorageDateFnzd = localStorage.getItem('Data Fnzd');
+    let listArrayDateFnzd;
+
     if (getLocalStoragefnzd == null) {
         listArrayfnzd = []
+        listArrayPrioridadeFnzd = []
+        listArrayDateFnzd = []
     } else  {
         listArrayfnzd= JSON.parse(getLocalStoragefnzd);
+        listArrayPrioridadeFnzd = JSON.parse(getLocalStoragePrioridadeFnzd);
+        listArrayDateFnzd = JSON.parse(getLocalStorageDateFnzd);
     }
-    listArrayfnzd.push(userDatafnzd);
-    localStorage.setItem("Nova Tarefa fnzd", JSON.stringify(listArrayfnzd));
-    fnzdMenuList.style.display = "none";
-    countFnzdFunc();
-    fnzdMostrarTarefa();
+    if (prioFnzd()){
+        if (dateFnzd()){
+            listArrayfnzd.push(userDatafnzd);
+            listArrayPrioridadeFnzd.push(dataPrioridadeFnzd)
+            listArrayDateFnzd.push(dataDateFnzd)
+
+            localStorage.setItem("Nova Tarefa fnzd", JSON.stringify(listArrayfnzd));
+            localStorage.setItem("Prioridade Fnzd", JSON.stringify(listArrayPrioridadeFnzd))
+            localStorage.setItem("Data Fnzd", JSON.stringify(listArrayDateFnzd))
+
+
+            countFnzdFunc();
+            fnzdMostrarTarefa();
+            fnzdMenuList.style.display = "none";
+
+        }
+        else {
+            window.alert("Insira uma data válida")
+            return
+        }
+    }
+    else {
+        window.alert("Insira uma prioridade válida: 1 - 5 ")
+        return;
+    }
+
 
 }
 function fnzdMostrarTarefa(){
     let getLocalStoragefnzd = localStorage.getItem("Nova Tarefa fnzd");
+    let getLocalStoragePrioridadeFnzd = localStorage.getItem("Prioridade Fnzd")
+    let listArrayPrioridadeFnzd;
+
+    let getLocalStorageDateFnzd = localStorage.getItem("Data Fnzd")
+    let listArrayDateFnzd;
     if (getLocalStoragefnzd == null){
         listArrayfnzd = [];
+        listArrayPrioridadeFnzd = []
+        listArrayDateFnzd = []
     }else {
         listArrayfnzd = JSON.parse(getLocalStoragefnzd);
+        listArrayPrioridadeFnzd = JSON.parse(getLocalStoragePrioridadeFnzd)
+        listArrayDateFnzd = JSON.parse(getLocalStorageDateFnzd)
     }
     let newLiTagfnzd = "";
     listArrayfnzd.forEach((elementfnzd, index) => {
+        let prioridadePrintFnzd = listArrayPrioridadeFnzd[index]
+        let dataPrintFnzd = listArrayDateFnzd[index]
         newLiTagfnzd += ` <li> 
                                   <input type=\"checkbox\" name=\"done-task\">
                                   <a><p>${elementfnzd}</p></a>
+                                  <p>${prioridadePrintFnzd}</p>
+                                  <p>${dataPrintFnzd}</p>
                                   <img src=\"images/arrow-rotate-right-solid.svg\" alt=\"\" onclick = "atualizarTarefaFnzd(${index})">
                                   <img src=\"images/trash-solid.svg\" onclick = "deletarTarefaFnzd(${index})">
                               </li>`
     });
     fnzdTodoList.innerHTML = newLiTagfnzd;
+    const descinput = document.querySelector('.descInputFnzd')
+    const dateField = document.querySelector('.datefieldFnzd')
+    const prioridadeField = document.querySelector('.prioridadefieldFnzd')
+    const categoryField = document.querySelector('.categoryfieldFnzd')
+    descinput.value= ""
+    dateField.value = ""
+    prioridadeField.value = ""
+    categoryField.value = ""
     fnzdInputName.value = "";
 
+}
+function prioFnzd() {
+    let regexPrioridade = /^[1-5]$/;
+    let inputPrioridade = document.getElementById("prioFnzd").value;
+    return regexPrioridade.test(inputPrioridade)
+}
+function dateFnzd() {
+    let regexDate = /^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/;
+    let inputDate = document.getElementById('datefieldFnzd').value;
+    let testValidDate = regexDate.test(inputDate)
+    let today = new Date();
+    let currentDate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+    currentDate = currentDate.split('/')
+    let currentDateMes = parseInt(currentDate[1])
+    let currentDateYear = parseInt(currentDate[2])
+    let currentDateDia = parseInt(currentDate[0])
+    inputDate = inputDate.split('/')
+    let inputDateDia = parseInt(inputDate[0])
+    let inputDateMes = parseInt(inputDate[1])
+    let inputDateAno = parseInt(inputDate[2])
+
+    if (testValidDate){
+        if (inputDateAno >= currentDateYear) {
+            if (inputDateAno > currentDateYear) {
+                return true
+            }
+            if (inputDateAno == currentDateYear) {
+                if (inputDateMes >= currentDateMes) {
+                    if (inputDateMes > currentDateMes) {
+                        return  true
+                    }
+                    if (inputDateMes == currentDateMes) {
+                        if (inputDateDia >= currentDateDia) {
+                            return true
+                        }
+                        else {
+                            return  false
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 /** fim do fazendo **/
@@ -200,40 +499,136 @@ closeconcMenuList.onclick = () => {
 concAddBtn.onclick = ()=> {
     let userDataconc = concInputName.value;
     let getLocalStorageconc = localStorage.getItem("Nova Tarefa conc");
+
+    let dataPrioridadeConc = document.getElementById('prioConc').value;
+    let getLocalStoragePrioridadeConc = localStorage.getItem('Prioridade Conc')
+    let listArrayPrioridadeConc;
+
+    let dataDateConc = document.getElementById('datefieldConc').value;
+    let getLocalStorageDateConc = localStorage.getItem('Data Conc');
+    let listArrayDateConc;
+
     if (getLocalStorageconc == null) {
         listArrayconc = []
+        listArrayPrioridadeConc = []
+        listArrayDateConc = []
     } else  {
         listArrayconc= JSON.parse(getLocalStorageconc);
+        listArrayPrioridadeConc = JSON.parse(getLocalStoragePrioridadeConc)
+        listArrayDateConc = JSON.parse(getLocalStorageDateConc)
     }
-    listArrayconc.push(userDataconc);
-    localStorage.setItem("Nova Tarefa conc", JSON.stringify(listArrayconc));
-    concMenuList.style.display = "none";
-    concMostrarTarefa();
-    countConcFunc();
+    if (prioConc()){
+        if (dateConc()){
+            listArrayconc.push(userDataconc);
+            listArrayPrioridadeConc.push(dataPrioridadeConc)
+            listArrayDateConc.push(dataDateConc)
+
+            localStorage.setItem("Nova Tarefa conc", JSON.stringify(listArrayconc));
+            localStorage.setItem("Prioridade Conc", JSON.stringify(listArrayPrioridadeConc))
+            localStorage.setItem("Data Conc", JSON.stringify(listArrayDateConc))
+            concMostrarTarefa();
+            countConcFunc();
+            concMenuList.style.display = "none";
+
+
+        }
+        else {
+            window.alert("Insira uma data válida")
+            return
+        }
+    }
+    else {
+        window.alert("Insira uma prioridade válida: 1 - 5 ")
+        return;
+    }
+
 
 
 }
 function concMostrarTarefa(){
     let getLocalStorageconc = localStorage.getItem("Nova Tarefa conc");
+    let getLocalStoragePrioridadeConc = localStorage.getItem("Prioridade Conc")
+    let listArrayPrioridadeConc;
+
+    let getLocalStorageDateConc = localStorage.getItem("Data Conc")
+    let listArrayDateConc;
     if (getLocalStorageconc == null){
         listArrayconc = [];
+        listArrayPrioridadeConc = []
+        listArrayDateConc = []
     }else {
         listArrayconc = JSON.parse(getLocalStorageconc);
+        listArrayPrioridadeConc = JSON.parse(getLocalStoragePrioridadeConc)
+        listArrayDateConc = JSON.parse(getLocalStorageDateConc)
     }
     let newLiTagconc = "";
     listArrayconc.forEach((elementconc, index) => {
+        let prioridadePrintConc = listArrayPrioridadeConc[index]
+        let dataPrintConc = listArrayDateConc[index]
         newLiTagconc += ` <li> 
                                   <input type=\"checkbox\" name=\"done-task\">
                                   <a><p>${elementconc}</p></a>
+                                  <p>${prioridadePrintConc}</p>
+                                  <p>${dataPrintConc}</p>
                                   <img src=\"images/arrow-rotate-right-solid.svg\" alt=\"\" onclick = "atualizarTarefaConc(${index})">
                                   <img src=\"images/trash-solid.svg\" onclick = "deletarTarefaConc()">
                               </li>`
     });
     concTodoList.innerHTML = newLiTagconc;
+    const descinput = document.querySelector('.descInputConc')
+    const dateField = document.querySelector('.datefieldConc')
+    const prioridadeField = document.querySelector('.prioridadefieldConc')
+    const categoryField = document.querySelector('.categoryfieldConc')
+    descinput.value= ""
+    dateField.value = ""
+    prioridadeField.value = ""
+    categoryField.value = ""
     concInputName.value = "";
 
 }
+function prioConc() {
+    let regexPrioridade = /^[1-5]$/;
+    let inputPrioridade = document.getElementById("prioConc").value;
+    return regexPrioridade.test(inputPrioridade)
+}
+function dateConc() {
+    let regexDate = /^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/;
+    let inputDate = document.getElementById('datefieldConc').value;
+    let testValidDate = regexDate.test(inputDate)
+    let today = new Date();
+    let currentDate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+    currentDate = currentDate.split('/')
+    let currentDateMes = parseInt(currentDate[1])
+    let currentDateYear = parseInt(currentDate[2])
+    let currentDateDia = parseInt(currentDate[0])
+    inputDate = inputDate.split('/')
+    let inputDateDia = parseInt(inputDate[0])
+    let inputDateMes = parseInt(inputDate[1])
+    let inputDateAno = parseInt(inputDate[2])
 
+    if (testValidDate){
+        if (inputDateAno >= currentDateYear) {
+            if (inputDateAno > currentDateYear) {
+                return true
+            }
+            if (inputDateAno == currentDateYear) {
+                if (inputDateMes >= currentDateMes) {
+                    if (inputDateMes > currentDateMes) {
+                        return  true
+                    }
+                    if (inputDateMes == currentDateMes) {
+                        if (inputDateDia >= currentDateDia) {
+                            return true
+                        }
+                        else {
+                            return  false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 /** FIM DO CONC **/
 
 /** Animações de flecha **/
@@ -385,3 +780,6 @@ function atualizarTarefaConc(index){
     } else {concMenuList.style.display = "none";
     }
 }
+
+
+

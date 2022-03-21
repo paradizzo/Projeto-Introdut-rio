@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/8e5b938a9a.js" crossorigin="anonymous"></script>
+
     <title>Acelera TOdo</title>
 </head>
 <body>
@@ -26,7 +27,11 @@
                 <div class="add-tarefas" id="add-prox">
                     <img src="images/xmark-solid.svg" alt="" >
                     <input type="text" placeholder="Insira a tarefa">
-                    <input type="text" placeholder="Descrição" >
+                    <input type="text" placeholder="Descrição"  id="descInput" class="descInput">
+                    <input id="datefieldProx" type='text' placeholder="Data exemplo: 01/12/2000" class="datefield">
+                    <input type="text" placeholder="Prioridade" id="prioProx" class="prioridadefield">
+                    <input type="text" placeholder="Categoria" class="categoryfield">
+
                     <a href="#" class="btn-add">Adicionar</a>
                 </div>
             <p class="item-count" id="count-prox"> 0 </p></div>
@@ -49,7 +54,11 @@
                     <img src="images/xmark-solid.svg" alt="" >
 
                     <input type="text" placeholder="Insira a tarefa">
-                    <input type="text" placeholder="Descrição" >
+                    <input type="text" placeholder="Descrição"  id="descInputFazer" class="descInputFazer">
+                    <input type="text" placeholder="Data exemplo: 01/12/2000" id="datefieldFazer" class="datefieldFazer">
+                    <input type="text" placeholder="Prioridade" id="prioFazer" class="prioridadefieldFazer">
+                    <input type="text" placeholder="Categoria" class="categoryfieldFazer">
+
                     <a href="#"  class="add-btn-fazer" >Adicionar</a>
                 </div>
             <p class="item-count" id="count-fazer"> 0</p></div>
@@ -73,7 +82,11 @@
                     <img src="images/xmark-solid.svg" alt="" >
 
                     <input type="text" placeholder="Insira a tarefa">
-                    <input type="text" placeholder="Descrição">
+                    <input type="text" placeholder="Descrição" id="descInputFnzd" class="descInputFnzd">
+                    <input type="text" placeholder="Data exemplo: 01/12/2000" id="datefieldFnzd" class="datefieldFnzd">
+                    <input type="text" placeholder="Prioridade" id="prioFnzd" class="prioridadefieldFnzd">
+                    <input type="text" placeholder="Categoria" class="categoryfieldFnzd">
+
                     <a href="#" class="add-btn-fnzd">Adicionar</a>
                 </div>
             <p class="item-count" id="count-fnzd"> 0</p></div>
@@ -97,7 +110,11 @@
                     <img src="images/xmark-solid.svg" alt="" >
 
                     <input type="text" placeholder="Insira a tarefa">
-                    <input type="text" placeholder="Descrição">
+                    <input type="text" placeholder="Descrição" id="descInputConc"  class="descInputConc">
+                    <input type="text" placeholder="Data exemplo: 01/12/2000" id="datefieldConc"  class="datefieldConc">
+                    <input type="text" placeholder="Prioridade" id="prioConc" class="prioridadefieldConc">
+                    <input type="text" placeholder="Categoria" class="categoryfieldConc">
+
                     <a href="#" class="add-btn-conc" >Adicionar</a>
                 </div>
             <p class="item-count" id="count-conc"> 0</p></div>
@@ -117,6 +134,6 @@
 
 
 
-    <script src="script.js"></script>
+    <script  src="script.js"></script>
 </body>
 </html>

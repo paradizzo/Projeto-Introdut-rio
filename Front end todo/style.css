@@ -6,15 +6,16 @@
 
 
 /* DEIXAR ROXO COM PRETO NO FIM DE TUDO, ESSE DESIGN TA FEIO */
-
-body {
-    background-image:url("images/pattern-hills.svg"), url("images/bg-stars.svg");
-    background-position: bottom;
+html {
+    height: 100%;
+    background-image:url("images/bg-stars.svg");
     background-color: black;
-    background-size:  100%, auto;
+    background-size:  auto;
     padding-top: 10ch;
-    background-repeat:  no-repeat, repeat;
+    background-repeat:  repeat;
     background-color: hsl(235, 16%, 14%);
+}
+body {
     min-height: 900px;
     height: 100vh;
 }
@@ -120,9 +121,11 @@ body {
     margin-right: 20px;
 }
 .todoList ul li p {
-    width: 150px;
-
+    width: 100px;
+    text-align: center;
+    align-self: center;
 }
+
 .todoList ul li  input {
     align-self: center;
 }
@@ -184,10 +187,13 @@ input[type="checkbox"] {
 
 
 }
-.add-tarefas input:nth-child(3n){
+#descInput, #descInputConc, #descInputFazer, #descInputFnzd {
     height: 100px;
-    margin-bottom: 40px;
     padding: 0 0 40px 10px;
+
+}
+.add-tarefas input:nth-child(6n){
+    margin-bottom: 40px;
 
 }
 .add-tarefas a {
@@ -219,6 +225,7 @@ input[type="checkbox"] {
 }
 .social-media-box li {
     margin: 0 auto;
+    height: 10ch;
 }
 /** POINTERS E HOVERS **/
 
@@ -280,4 +287,40 @@ input[type="checkbox"] {
     .main {
         margin: 0 auto;
     }
+}
+
+/** MUDANÇAS 20/03 **/
+
+.sliders {
+    -webkit-appearance: none;
+    width: 50%;
+    height: 10px;
+    background: #000;
+    outline: none;
+    border: 5px solid lawngreen;
+    border-radius: 8px;
+}
+
+.sliders::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 40px;
+    background: #000;
+    cursor: pointer;
+    border: 5px solid #BC13FEC6;
+    border-radius: 4px;
+}
+
+/* for firefox */
+.sliders::-moz-range-thumb {
+    width: 20px;
+    height: 40px;
+    background: #000;
+    cursor: pointer;
+    border: 5px solid #BC13FEC6;
+    border-radius: 4px;
+}
+.add-tarefas p , .add-tarefas output{
+    color: white;
 }
