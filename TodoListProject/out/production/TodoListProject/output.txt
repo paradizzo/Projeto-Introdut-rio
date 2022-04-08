@@ -1,0 +1,1 @@
+[Nome da tarefa = lucas, Descrição = sdasdasasd, Dia para entrega = 01/12/998, Prioridade = 2, Categoria = saude, Status = Não concluido]
