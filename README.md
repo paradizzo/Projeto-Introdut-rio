@@ -33,3 +33,6 @@ O principal motivo de não correção desses bugs foi o atraso na trilha, próxi
 - Quando você deixar seu mouse em cima de uma tarefa, um pop-up aparecerá e mostrará a descrição de tal tarefa
 - Movimentação de tarefas pelo mouse ( Provavelmente ) 
 
+### Adição do Gradle (?)
+
+- Sem novas features nem correção de bugs, apenas adição do Gradle
